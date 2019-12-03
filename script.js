@@ -21,7 +21,7 @@ for (let y=18; y>0; y--){
 	}
 }
 
-let x=5, y=10;
+let x=5, y=15;
 let mainArr=[
 	//палка
 	[
@@ -95,6 +95,49 @@ function create() {      //создание фигуры
 	}
 
 }
-
-
 create()
+
+ function move(){
+	let moveFlag = true;
+	let coordinates = [
+			[figureBody[0].getAttribute('positionX'), figureBody[0].getAttribute('positionY')],
+			[figureBody[1].getAttribute('positionX'), figureBody[1].getAttribute('positionY')],
+			[figureBody[2].getAttribute('positionX'), figureBody[2].getAttribute('positionY')],
+			[figureBody[3].getAttribute('positionX'), figureBody[3].getAttribute('positionY')],
+	];
+
+	 for(let i=0; i<coordinates.length; i++){
+	 	if (coordinates [i][1]==1 ||document.querySelector(`[positionX = "${coordinates[i][0]}"][positionY =' +
+				' "${coordinates[i][1]-1}"]`).classList.contains('set')){
+	 		moveFlag=false;
+	 		break;
+		}
+	 }
+
+	 if (moveFlag) {
+	 	for(let i=0; i<figureBody.lenght; i++){
+	 		figureBody[i].classList.remove('figure');
+		}
+		figureBody=[
+				document.querySelector(`[positionX= "${coordinates[0][0]}"][positionY= "${coordinates[0][1]-1}"]`),
+				document.querySelector(`[positionX= "${coordinates[1][0]}"][positionY= "${coordinates[1][1]-1}"]`),
+				document.querySelector(`[positionX= "${coordinates[2][0]}"][positionY= "${coordinates[2][1]-1}"]`),
+				document.querySelector(`[positionX= "${coordinates[3][0]}"][positionY= "${coordinates[3][1]-1}"]`),
+		];
+	 	for(let i=0; i<figureBody.length; i++) {
+	 		figureBody[i].classList.add('figure');
+		}
+	 } else {
+			 for(let i=0; i<figureBody.length; i++) {
+				 figureBody[i].classList.add('figure');
+				 figureBody[i].classList.add('set');
+		 }
+		 create();
+	 }
+ }
+
+let interval;
+interval = setInterval(() => {
+	move();
+}, 300);
+
